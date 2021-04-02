@@ -30,7 +30,7 @@ if(isset($_POST['ubah']))
 {
     
         $koneksi->query("UPDATE gejala SET nama_gejala='$_POST[nama]',
-        nilai_ds='$_POST[nilai]' WHERE id_gejala='$_GET[id]'");
+        nilai_bobot='$_POST[nilai]' WHERE id_gejala='$_GET[id]'");
     
 echo "<div class='alert alert-info'>Data Berhasil di ubah</div>";
     echo "<meta http-equiv='refresh' content='1;url=index.php?halaman=gejala'>";

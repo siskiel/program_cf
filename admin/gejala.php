@@ -20,7 +20,7 @@
         <tr>
             <td><?php echo $nomor; ?></td>
             <td><?php echo $pecah['nama_gejala'];?></td>
-            <td><?php echo $pecah['nilai_ds'];?></td>
+            <td><?php echo $pecah['nilai_bobot'];?></td>
             
             <td>
                 <a href="index.php?halaman=gejalaubah&id=<?php echo $pecah['id_gejala'];?>" i class="fa fa-clipboard fa-1x btn-primary btn ">Edit</a>

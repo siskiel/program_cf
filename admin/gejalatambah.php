@@ -22,7 +22,7 @@
 if(isset($_POST['save']))
 {
     
-    $koneksi->query("INSERT INTO gejala (nama_gejala,nilai_ds) VALUES('$_POST[nama]','$_POST[nilai]')");
+    $koneksi->query("INSERT INTO gejala (nama_gejala,nilai_bobot) VALUES('$_POST[nama]','$_POST[nilai]')");
     echo "<div class='alert alert-info'>Data tersimpan</div>";
     echo "<meta http-equiv='refresh' content='1;url=index.php?halaman=gejala'>";
 }
