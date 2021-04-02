@@ -8,7 +8,7 @@
         <tr>
             <th>No</th>
             <th>Gejala</th>
-            <th>Nilai Densitas</th>
+            <th>Nilai Bobot</th>
             <th>Aksi</th>
             
         </tr>

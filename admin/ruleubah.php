@@ -39,7 +39,7 @@ $pecah = $ambil->fetch_assoc();
 			?>
 		</select>
 	</div>
-	<button class="btn-btn primary" name="ubah">Ubah</button>
+	<button class="btn btn-primary" name="ubah">Ubah</button>
 </form>
 <?php
 if (isset($_POST['ubah'])) {

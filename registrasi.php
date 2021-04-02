@@ -1,3 +1,6 @@
+<?php
+include 'config/koneksi.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,52 +36,79 @@
                 <div class="card-heading"></div>
                 <div class="card-body">
                     <h2 class="title">Registration Info</h2>
-                    <form method="POST">
-                     <div class="row row-space">
-                        <div class="col-2">
-                        <div class="input-group">
-                            <input class="input--style-2" type="text" placeholder="Nama" name="name">
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <div class="input-group">
-                            <input class="input--style-2" type="text" placeholder="No. Hp" name="hotlp">
-                        </div>
-                    </div>
-                     </div>
-                    <div class="row row-space">
-                    <div class="col-2">
-                        <div class="input-group">
-                            <input class="input--style-2 js-datepicker" type="text" placeholder="Tanggal Lahir" name="tgllahir">
-                            <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <div class="input-group">
-                            <div class="rs-select2 js-select-simple select--no-search">
-                                <select name="jk">
-                                    <option disabled="disabled" selected="selected">Jenis Kelamin</option>
-                                    <option>Laki-Laki</option>
-                                    <option>Perempuan</option>
-                                </select>
-                                <div class="select-dropdown"></div>
+                    <form method="POST" action="aksi-reg.php">
+                        <div class="row row-space">
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <input class="input--style-2" type="text" placeholder="Nama" name="name" required>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <input class="input--style-2" type="text" placeholder="No. Hp" name="notlp" required>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    </div>
-                       <!--  <div class="row row-space">
-                            <div class="col-2"> -->
+                        <div class="row row-space">
+                            <div class="col-2">
                                 <div class="input-group">
-                                    <input class="input--style-2" type="text" placeholder="Alamat" name="alamat">
+                                    <input class="input--style-2 js-datepicker" type="text" placeholder="Tanggal Lahir" name="tgllahir" required>
+                                    <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
                                 </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group" >
+                                    <div class="rs-select2 js-select-simple select--no-search">
+                                        <select class="form-select" name="jk" id="jk" required >
+                                            <option disabled="disabled" selected="selected">Jenis Kelamin</option>
+                                            <option value="Laki-Laki">Laki-Laki</option>
+                                            <option value="Perempuan">Perempuan</option>
+                                        </select>
+                                        <div class="select-dropdown"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  <div class="row row-space">
+                            <div class="col-2"> -->
+                        <div class="input-group">
+                            <input class="input--style-2" type="text" placeholder="Alamat" name="alamat" required>
+                        </div>
+                         <input type="hidden" name="tglkonsul" value="<?php echo date("d-m-Y"); ?>">
                         <!--     </div>
                         </div> -->
+                        <h4><strong> Siliahkan Pilih gejala yang anda alami</strong></h4>
+                        <br>
+                        <br>
+                        <?php $ambil = $koneksi->query("SELECT * FROM gejala");
+                        $no = 1; ?>
+                        <?php while ($pecah = $ambil->fetch_assoc()) { ?>
+                            <div class="row row-space">
+                                <div class="col-2">
+                                    <h5 name="id_gejala[<?php echo $pecah['id_gejala'] ?>]" id="id_gejala[<?php echo $pecah['id_gejala'] ?>]"><?php echo $pecah['nama_gejala']; ?></h5>
+                                </div>
+                                <div class="col-2">
+                                    <div class="input-group">
+                                        <div class="rs-select2 js-select-simple select--no-search">
+                                            <select name="nilai_gejala">
+                                                <option disabled="disabled" selected="selected">--Pilih--</option>
+                                                <option value="<?php echo $pecah['nilai_bobot'];?>">Ya</option>
+                                                <option value="0">Tidak</option>
+                                            </select>
+                                            <div class="select-dropdown"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
+
+
                         <div class="p-t-30">
                             <button class="btn btn--radius btn--green light" type="submit">Konsultasi</button>
                             <!-- <a href="diagnosis.php">Konsultasi</a> -->
                         </div>
                         <div class="col-12">
-                            <a href="index.php" style="text-decoration": none>Kembali</a>
+                            <a href="index.php" style="text-decoration: none">Kembali</a>
                         </div>
                     </form>
                 </div>
