@@ -87,13 +87,19 @@ include 'config/koneksi.php';
                                 <div class="col-2">
                                     <h5 name="id_gejala[<?php echo $pecah['id_gejala'] ?>]" id="id_gejala[<?php echo $pecah['id_gejala'] ?>]"><?php echo $pecah['nama_gejala']; ?></h5>
                                 </div>
+                                 <?php $ambil_datapilihan = $koneksi->query("SELECT * FROM pilihan_user");
+                         ?>
+                        
                                 <div class="col-2">
                                     <div class="input-group">
                                         <div class="rs-select2 js-select-simple select--no-search">
                                             <select name="nilai_gejala">
                                                 <option disabled="disabled" selected="selected">--Pilih--</option>
-                                                <option value="<?php echo $pecah['nilai_bobot'];?>">Ya</option>
-                                                <option value="0">Tidak</option>
+                                                <?php while ($tampildata = $ambil_datapilihan->fetch_assoc()) { ?>
+                                                <option value="<?php echo $tampildata['bobot_pilihan'];?>" name="id_pilihan_user[<?php echo $tampildata['id_pilihan_user'] ?>]" id="id_pilihan_user[<?php echo $tampildata['id_pilihan_user'] ?>]"> <?php echo $tampildata['nama_pilihan']; ?></option>
+                                                
+                                                
+                                                <?php } ?>
                                             </select>
                                             <div class="select-dropdown"></div>
                                         </div>

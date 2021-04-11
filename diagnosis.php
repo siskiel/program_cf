@@ -10,7 +10,7 @@ while($rs=mysqli_fetch_array($sql))
 ?>
     <p>
        <input type="checkbox" class="filled-in" id="<?php echo $no;?>" name="<?php echo $no;?>" value="<?php echo $rs[no];?>" />
-      <label for="<?php echo $no;?>"><b><?php echo $rs[gejala];?></b></label>
+      <label for="<?php echo $no;?>"><b><?php echo $rs['gejala'];?></b></label>
     </p>
   <?php $no=$no+1; } 
 
