@@ -61,8 +61,8 @@ include 'config/koneksi.php';
                                     <div class="rs-select2 js-select-simple select--no-search">
                                         <select class="form-select" name="jk" id="jk" required >
                                             <option disabled="disabled" selected="selected">Jenis Kelamin</option>
-                                            <option value="Laki-Laki">Laki-Laki</option>
-                                            <option value="Perempuan">Perempuan</option>
+                                            <option value="l">Laki-Laki</option>
+                                            <option value="p">Perempuan</option>
                                         </select>
                                         <div class="select-dropdown"></div>
                                     </div>
@@ -74,7 +74,7 @@ include 'config/koneksi.php';
                         <div class="input-group">
                             <input class="input--style-2" type="text" placeholder="Alamat" name="alamat" required>
                         </div>
-                         <input type="hidden" name="tglkonsul" value="<?php echo date("d-m-Y"); ?>">
+                         <input type="hidden" name="tglkonsul" value="<?php echo date("Y-m-d"); ?>">
                         <!--     </div>
                         </div> -->
                         <h4><strong> Siliahkan Pilih gejala yang anda alami</strong></h4>
@@ -93,12 +93,11 @@ include 'config/koneksi.php';
                                 <div class="col-2">
                                     <div class="input-group">
                                         <div class="rs-select2 js-select-simple select--no-search">
-                                            <select name="nilai_gejala">
+                                            <select name="gejala[<?php echo $pecah['id_gejala'] ?>]">
                                                 <option disabled="disabled" selected="selected">--Pilih--</option>
+
                                                 <?php while ($tampildata = $ambil_datapilihan->fetch_assoc()) { ?>
-                                                <option value="<?php echo $tampildata['bobot_pilihan'];?>" name="id_pilihan_user[<?php echo $tampildata['id_pilihan_user'] ?>]" id="id_pilihan_user[<?php echo $tampildata['id_pilihan_user'] ?>]"> <?php echo $tampildata['nama_pilihan']; ?></option>
-                                                
-                                                
+                                                    <option value="<?php echo $tampildata['bobot_pilihan'];?>"> <?php echo $tampildata['nama_pilihan']; ?></option>
                                                 <?php } ?>
                                             </select>
                                             <div class="select-dropdown"></div>
@@ -110,7 +109,7 @@ include 'config/koneksi.php';
 
 
                         <div class="p-t-30">
-                            <button class="btn btn--radius btn--green light" type="submit">Konsultasi</button>
+                            <button class="btn btn--radius btn--green light" name="submit" type="submit">Konsultasi</button>
                             <!-- <a href="diagnosis.php">Konsultasi</a> -->
                         </div>
                         <div class="col-12">

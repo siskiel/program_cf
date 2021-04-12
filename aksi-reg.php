@@ -1,3 +1,105 @@
+<?php
+
+include('config/koneksi.php');
+
+$nama_pasien = $_POST['name'];
+$tgl_lahir = date('Y-m-d', strtotime($_POST['tgllahir']));
+$jk = $_POST['jk'];
+$no_hp = $_POST['notlp'];
+$alamat = $_POST['alamat'];
+$tgl_konsul = $_POST['tglkonsul'];
+
+$gejala_user = $_POST['gejala'];
+$gejala_user = [
+	1  => 0.4,
+	2  => 0.6,
+	3  => 0.8,
+	// 4  => 0,
+	// 5  => 0,
+	6  => 0.8,
+	// 7  => 0,
+	// 8  => 0,
+	9  => 0.6,
+	10 => 0.8,
+	// 11 => 0,
+	// 12 => 0,
+	// 13 => 0,
+	// 14 => 0,
+	// 15 => 0,
+];
+
+// mengambil data penyakit
+$data_penyakit = [];
+$query = "SELECT * FROM penyakit";
+$result = $koneksi->query($query);
+$index = 0;
+while($row = mysqli_fetch_array($result)):
+	$data_penyakit['id_penyakit'][$index] = $row['id_penyakit'];
+	$data_penyakit['kode_penyakit'][$index] = $row['kode_penyakit'];
+	$data_penyakit['nama_penyakit'][$index] = $row['nama_penyakit'];
+	$data_penyakit['solusi'][$index] = $row['solusi'];
+
+	$index++;
+endwhile;
+
+// mengambil data gejala
+$data_gejala = [];
+$query = "SELECT * FROM gejala";
+$result = $koneksi->query($query);
+$index = 0;
+while($row = mysqli_fetch_array($result)):
+	$data_gejala['id_gejala'][$index] = $row['id_gejala'];
+	$data_gejala['kode_gejala'][$index] = $row['kode_gejala'];
+	$data_gejala['nama_gejala'][$index] = $row['nama_gejala'];
+	$data_gejala['nilai_bobot'][$index] = $row['nilai_bobot'];
+
+	$index++;
+endwhile;
+
+// mengambil rule berdasarkan gejala user untuk mengambil nilai cf
+$gejala_user_fix = [];
+$pilihan_user = [];
+foreach ($gejala_user as $key => $value) {
+	array_push($pilihan_user, $key);
+
+	$result = $koneksi->query("SELECT * FROM rule INNER JOIN gejala ON rule.id_gejala = gejala.id_gejala WHERE rule.id_gejala='".$key."'");
+	while($row = mysqli_fetch_array($result)):
+		$gejala_user_fix[$row['id_penyakit']]['cf'][] = $row['nilai_bobot'] * $value;
+	endwhile;
+}
+
+$CF_HE = [];
+foreach ($gejala_user_fix as $key => $value) {
+	if(count($value['cf']) > 1) {
+		// echo "lebih dari satu penyakit";
+		$cfold = 0;
+
+		for ($i=0; $i < (count($value['cf']) - 1); $i++) { 
+			if($i == 0) {
+				$cfold = $value['cf'][$i] + ($value['cf'][$i+1] * (1 - $value['cf'][$i]));
+			} else {
+				$cfold = $cfold + ($value['cf'][$i+1] * (1 - $cfold));
+			}
+		}
+
+		$CF_HE[$key] = $cfold;
+	} else {
+		// echo "cuma satu penyakit";
+		$CF_HE[$key] = $value['cf'][$i];
+	}
+}
+
+// urutkan nilai dari terbesar ke terkecil;
+arsort($CF_HE);
+
+// lalu hasilkan lagi array yang bisa di gunakan secara dinamis
+$cf_hasil_akhir['keys'] = array_keys($CF_HE);
+$cf_hasil_akhir['values'] = array_values($CF_HE);
+
+// echo "<pre>"; print_r($pilihan_user); echo "</pre>";
+
+?>
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -34,27 +136,23 @@
 							<th style="width: 10%">Nilai Bobot</th>
 						</tr>
 					</thead>
+
 					<tbody>
-					<?php include('config/koneksi.php') ?>
+						<?php
+							$no = 1;
+							foreach ($gejala_user as $key => $value) {
+								$index =  array_search("{$key}", $data_penyakit['id_penyakit'], true);
+								
+								echo "<tr>";
+								echo "<td align='center'>" . $no . "</td>";
+								echo "<td align='center'>" . $data_gejala['kode_gejala'][$index] . "</td>";
+								echo "<td align='center'>" . $data_gejala['nama_gejala'][$index] . "</td>";
+								echo "<td align='center'>" . $data_gejala['nilai_bobot'][$index] . "</td>";
+								echo "</tr>";
 
-					<?php
-						$pilihan_user = [];
-						$no = 1;
-						foreach ($_POST['id_gejala'] as $key => $value) {
-							// if($value > 0):
-								$result = $koneksi->query("SELECT * FROM gejala WHERE id_gejala='".$key."'");
-								while($row = mysqli_fetch_array($result)):
-									echo "<tr>";
-									echo "<td>" . $no . "</td>";
-									echo "<td>" . $row['kode_gejala'] . "</td>";
-									echo "<td>" . $row['nama_gejala'] . "</td>";
-									echo "<td>" . $row['nilai_bobt'] . "</td>";
-
-									$no+=1;
-								endwhile;
-							// endif;
-						}
-					?>
+								$no++;
+							}
+						?>
 					</tbody>
 				</table>
 			</div>
@@ -65,47 +163,66 @@
 
 			<?php
 				if(isset($_POST['submit'])) {
-					// gejala yg dipilih user
-					$pilihan_user = [];
-					foreach ($_POST['id_gejala'] as $key => $value) {
-					// 	if($value > 0):
-							$pilihan_user[] = $key;
-					// 	endif;
+					if($cf_hasil_akhir['values'][0] == $cf_hasil_akhir['values'][1]) {
+						$penyakit_gabungan = [$cf_hasil_akhir['keys'][0], $cf_hasil_akhir['keys'][1]];
+
+						// lalu simpan hasil ke dalam table pasien
+						$query = "INSERT INTO pasien (nama_pasien, tgl_lahir, jk, no_hp, alamat, tgl_konsul, id_penyakit, gejala, total_perhitungan) VALUES ('".$nama_pasien."', '".$tgl_lahir."', '".$jk."', '".$no_hp."', '".$alamat."', '".$tgl_konsul."', '".serialize($penyakit_gabungan)."', '".serialize($pilihan_user)."', '".$cf_hasil_akhir['values'][0]."')";
+
+						if($koneksi->query($query) === TRUE):
+							// tangkap last id
+							$last_id = $koneksi->insert_id;
+				
+							// isi pesan untuk hasil diagnosa
+							$pesan = "
+							<p>
+								Dari hasil perhitungan, maka dapat disimpulkan penyakit yang anda alami adalah
+								<pre>".$data_penyakit['nama_penyakit'][array_search($cf_hasil_akhir['keys'][0],$data_penyakit['kode_penyakit'])]. " (" . $cf_hasil_akhir['keys'][0] . ")" . "</pre>
+								<pre>".$data_penyakit['nama_penyakit'][array_search($cf_hasil_akhir['keys'][1],$data_penyakit['kode_penyakit'])]. " (" . $cf_hasil_akhir['keys'][1] . ")" . "</pre>
+								Dengan tingkat presentasi:
+								<pre>".round(($cf_hasil_akhir['values'][0] * 100), 2)."%</pre>
+								Solusi : 
+								<pre>".$data_penyakit['nama_penyakit'][array_search($cf_hasil_akhir['keys'][0],$data_penyakit['kode_penyakit'])]. " (" . $cf_hasil_akhir['keys'][0] . ")" . "</pre>
+								<pre>".$data_penyakit['solusi'][array_search($cf_hasil_akhir['keys'][0],$data_penyakit['kode_penyakit'])]. "</pre>
+				
+								<pre>".$data_penyakit['nama_penyakit'][array_search($cf_hasil_akhir['keys'][1],$data_penyakit['kode_penyakit'])]. " (" . $cf_hasil_akhir['keys'][1] . ")" . "</pre>
+								<pre>".$data_penyakit['solusi'][array_search($cf_hasil_akhir['keys'][1],$data_penyakit['kode_penyakit'])]. "</pre>
+							</p>
+							<a href='content/user/konsultasi/proses_cetak.php?id=".$last_id."' class='btn btn-primary btn-flat float-right'><i class='fa fa-print'></i> Cetak Laporan</a>
+							<br><br>
+							";
+						else:
+							$pesan = 'Gagal mendiagnosa penyakit';
+						endif;
+					} else {
+						// lalu simpan hasil ke dalam tbl_konsultasi
+						$penyakit_gabungan = [$cf_hasil_akhir['keys'][0]];
+
+						$query = "INSERT INTO pasien (nama_pasien, tgl_lahir, jk, no_hp, alamat, tgl_konsul, id_penyakit, gejala, total_perhitungan) VALUES ('".$nama_pasien."', '".$tgl_lahir."', '".$jk."', '".$no_hp."', '".$alamat."', '".$tgl_konsul."', '".serialize($penyakit_gabungan)."', '".serialize($pilihan_user)."', '".$cf_hasil_akhir['values'][0]."')";
+
+						if($koneksi->query($query) === TRUE):
+							// tangkap last id
+							$last_id = $koneksi->insert_id;
+				
+							// isi pesan untuk hasil diagnosa
+							$pesan = "
+							<p>
+								Dari hasil perhitungan, maka dapat disimpulkan penyakit yang anda alami adalah
+								<pre>".$data_penyakit['nama_penyakit'][array_search($cf_hasil_akhir['keys'][0],$data_penyakit['kode_penyakit'])]. " (" . $cf_hasil_akhir['keys'][0] . ")" . "</pre>
+								Dengan tingkat presentasi:
+								<pre>".round(($cf_hasil_akhir['values'][0] * 100), 2)."%</pre>
+								Solusi : 
+								<pre>".$data_penyakit['solusi'][array_search($cf_hasil_akhir['keys'][0],$data_penyakit['kode_penyakit'])]. "</pre>
+							</p>
+							<a href='content/user/konsultasi/proses_cetak.php?id=".$last_id."' class='btn btn-primary btn-flat float-right'><i class='fa fa-print'></i> Cetak Laporan</a>
+							<br><br>
+							";
+						else:
+							$pesan = 'Gagal mendiagnosa penyakit ' . $koneksi-> error;
+						endif; 
 					}
 
-
-					$sql = "SELECT GROUP_CONCAT(penyakit.kode_penyakit), gejala.nilai_ds FROM rule JOIN penyakit ON rule.id_penyakit = penyakit.id_penyakit JOIN gejala ON rule.id_gejala = gejala.id_gejala WHERE rule.id_gejala IN (".implode(',',$pilihan_user).") GROUP BY rule.id_gejala";
-					$result=$koneksi->query($sql);
-					$gejala=array();
-					while($row=$result->fetch_row()){
-						$gejala[]=$row;
-					}
-
-
-					//simpan kedalam database table pasien
-					$name = $_POST['name'];
-					$tgllahir = $_POST['tgllahir'];
-					$$no_hp = $_POST['notlp'];
-					$jk = $_POST['jk'];
-					$alamat = $_POST['alamat'];
-					$tglkonsul = $_POST['tglkonsul'];
-
-					$query = "INSERT INTO pasien (nama_pasien, tgl_lahir, jk, no_hp, alamat,id_penyakit, gejala, total_perhitungan) VALUES ('".$name."', '".$tgllahir."', '".$jk."',  '".$no_hp."', '".$alamat."', '".$tglkonsul."', '".$row[0]."', '".serialize($pilihan_user)."')";
-
-					if($koneksi->query($query) === TRUE):
-						// tangkap last id
-						$last_id = $koneksi->insert_id;
-
-						// hasil
-						echo '<div class="alert alert-info alert-dismissible">';
-						echo '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>';
-						echo '<h5><i class="icon fas fa-info"></i> Hasil Diagnosa!</h5>';
-						// echo "Terdeteksi penyakit <b>{$row[1]}</br> dengan derajat kepercayaan ".round($densitas_baru[$codes[0]],2)." % <br>";
-						echo "<a href='proses_cetak.php?id=".$last_id."' class='btn btn-primary btn-flat '><i class='fa fa-print'></i> Cetak Laporan</a>";
-						echo '</div>';
-					else:
-						// echo "<pre>";print_r($koneksi->error_list);
-					endif;	
+					echo $pesan;
 				} 
 			?>
 		</div>
