@@ -10,23 +10,6 @@ $alamat = $_POST['alamat'];
 $tgl_konsul = $_POST['tglkonsul'];
 
 $gejala_user = $_POST['gejala'];
-$gejala_user = [
-	1  => 0.4,
-	2  => 0.6,
-	3  => 0.8,
-	// 4  => 0,
-	// 5  => 0,
-	6  => 0.8,
-	// 7  => 0,
-	// 8  => 0,
-	9  => 0.6,
-	10 => 0.8,
-	// 11 => 0,
-	// 12 => 0,
-	// 13 => 0,
-	// 14 => 0,
-	// 15 => 0,
-];
 
 // mengambil data penyakit
 $data_penyakit = [];
@@ -140,8 +123,8 @@ $cf_hasil_akhir['values'] = array_values($CF_HE);
 					<tbody>
 						<?php
 							$no = 1;
-							foreach ($gejala_user as $key => $value) {
-								$index =  array_search("{$key}", $data_penyakit['id_penyakit'], true);
+							foreach ($pilihan_user as $key => $value) {
+								$index =  array_search("{$value}", $data_gejala['id_gejala'], true);
 								
 								echo "<tr>";
 								echo "<td align='center'>" . $no . "</td>";
