@@ -11,44 +11,47 @@ if(!isset($_SESSION['user']))
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-      <meta charset="utf-8" />
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin | Batu Karang - Expert System</title>
-	<!-- BOOTSTRAP STYLES-->
+    <!-- BOOTSTRAP STYLES-->
     <link href="../assets/css/bootstrap.css" rel="stylesheet" />
-     <!-- FONTAWESOME STYLES-->
+    <!-- FONTAWESOME STYLES-->
     <link href="../assets/css/font-awesome.css" rel="stylesheet" />
-     <!-- MORRIS CHART STYLES-->
+    <!-- MORRIS CHART STYLES-->
     <link href="../assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
-        <!-- CUSTOM STYLES-->
+    <!-- CUSTOM STYLES-->
     <link href="../assets/css/custom.css" rel="stylesheet" />
-     <!-- GOOGLE FONTS-->
-   <link href='http:/fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+    <!-- GOOGLE FONTS-->
+    <link href='http:/fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 </head>
+
 <body>
     <div id="wrapper">
         <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
-                <a class="navbar-brand" href="index.php"> 
-               
-                Perawat</a> 
+                <a class="navbar-brand" href="index.php">
+
+                    Perawat</a>
             </div>
-  <div style="color: white;
+            <div style="color: white;
 padding: 15px 50px 5px 50px;
 float: right;
-font-size: 16px;"><span id="tanggalwaktu">   </span> 
-           <a href="index.php?halaman=logout" class="btn btn-danger square-btn-adjust">    Logout</a> </div>
-        </nav>   
-           <!-- /. NAV TOP  -->
-                <nav class="navbar-default navbar-side" role="navigation">
+font-size: 16px;"><span id="tanggalwaktu"> </span>
+                <a href="index.php?halaman=logout" class="btn btn-primary square-btn-adjust"> Logout</a>
+            </div>
+        </nav>
+        <!-- /. NAV TOP  -->
+        <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
-				<li class="text-center">
-                    <img src="../assets/img/images.png" class="user-image img-responsive"/>
-					</li>
-				
-					
+                    <li class="text-center">
+                        <img src="../assets/img/images.png" class="user-image img-responsive" />
+                    </li>
+
+
                     <li>
                         <a href="index.php"><i class="fa fa-dashboard fa-2x"></i> Dashboard</a>
                     </li>
@@ -60,20 +63,20 @@ font-size: 16px;"><span id="tanggalwaktu">   </span>
                     </li>
                     <li>
                         <a href="index.php?halaman=rule"><i class="fa fa-cloud fa-2x"></i> Rules</a>
-                    </li> 
+                    </li>
                     <li>
                         <a href="index.php?halaman=diagnosa"><i class="fa fa-clipboard fa-2x"></i>Prediksi Pasien</a>
-                    </li>     
+                    </li>
                     <li>
                         <a href="index.php?halaman=logout"><i class="fa fa-sign-out fa-2x"></i> Logout</a>
-                    </li>               	
+                    </li>
                 </ul>
-               
+
             </div>
-            
-        </nav>  
+
+        </nav>
         <!-- /. NAV SIDE  -->
-        <div id="page-wrapper" >
+        <div id="page-wrapper">
             <div id="page-inner">
                 <?php
                 if (isset($_GET['halaman']))
@@ -129,39 +132,43 @@ font-size: 16px;"><span id="tanggalwaktu">   </span>
                     include 'home.php';
                 }
                 ?>
-             <!-- /. PAGE INNER  -->
+                <!-- /. PAGE INNER  -->
             </div>
-         <!-- /. PAGE WRAPPER  -->
+            <!-- /. PAGE WRAPPER  -->
         </div>
 
-<!-- tanggal dan waktu  -->
+        <!-- tanggal dan waktu  -->
         <script>
- var tw = new Date();
-                                    if (tw.getTimezoneOffset() == 0) (a=tw.getTime() + ( 7 *60*60*1000))
-                                    else (a=tw.getTime());
-                                    tw.setTime(a);
-                                    var tahun= tw.getFullYear ();
-                                    var hari= tw.getDay ();
-                                    var bulan= tw.getMonth ();
-                                    var tanggal= tw.getDate ();
-                                    var hariarray=new Array("Minggu,","Senin,","Selasa,","Rabu,","Kamis,","Jum'at,","Sabtu,");
-                                    var bulanarray=new Array("Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","Nopember","Desember");
-                                    document.getElementById("tanggalwaktu").innerHTML = hariarray[hari]+" "+tanggal+" "+bulanarray[bulan]+" "+tahun+" Jam " + ((tw.getHours() < 10) ? "0" : "") + tw.getHours() + ":" + ((tw.getMinutes() < 10)? "0" : "") + tw.getMinutes() + (" WIB ");
-                                    </script>
-     <!-- /. WRAPPER  -->
-    <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
-    <!-- JQUERY SCRIPTS -->
-    <script src="../assets/js/jquery-1.10.2.js"></script>
-      <!-- BOOTSTRAP SCRIPTS -->
-    <script src="../assets/js/bootstrap.min.js"></script>
-    <!-- METISMENU SCRIPTS -->
-    <script src="../assets/js/jquery.metisMenu.js"></script>
-     <!-- MORRIS CHART SCRIPTS -->
-     <script src="../assets/js/morris/raphael-2.1.0.min.js"></script>
-    <script src="../assets/js/morris/morris.js"></script>
-      <!-- CUSTOM SCRIPTS -->
-    <script src="../assets/js/custom.js"></script>
-    
-   
+        var tw = new Date();
+        if (tw.getTimezoneOffset() == 0)(a = tw.getTime() + (7 * 60 * 60 * 1000))
+        else(a = tw.getTime());
+        tw.setTime(a);
+        var tahun = tw.getFullYear();
+        var hari = tw.getDay();
+        var bulan = tw.getMonth();
+        var tanggal = tw.getDate();
+        var hariarray = new Array("Minggu,", "Senin,", "Selasa,", "Rabu,", "Kamis,", "Jum'at,", "Sabtu,");
+        var bulanarray = new Array("Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus",
+            "September", "Oktober", "Nopember", "Desember");
+        document.getElementById("tanggalwaktu").innerHTML = hariarray[hari] + " " + tanggal + " " + bulanarray[bulan] +
+            " " + tahun + " Jam " + ((tw.getHours() < 10) ? "0" : "") + tw.getHours() + ":" + ((tw.getMinutes() < 10) ?
+                "0" : "") + tw.getMinutes() + (" WIB ");
+        </script>
+        <!-- /. WRAPPER  -->
+        <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
+        <!-- JQUERY SCRIPTS -->
+        <script src="../assets/js/jquery-1.10.2.js"></script>
+        <!-- BOOTSTRAP SCRIPTS -->
+        <script src="../assets/js/bootstrap.min.js"></script>
+        <!-- METISMENU SCRIPTS -->
+        <script src="../assets/js/jquery.metisMenu.js"></script>
+        <!-- MORRIS CHART SCRIPTS -->
+        <script src="../assets/js/morris/raphael-2.1.0.min.js"></script>
+        <script src="../assets/js/morris/morris.js"></script>
+        <!-- CUSTOM SCRIPTS -->
+        <script src="../assets/js/custom.js"></script>
+
+
 </body>
+
 </html>

@@ -23,17 +23,16 @@ $pecah = $ambil->fetch_assoc();
         <label>Nama penyakit</label>
         <input type="text" class="form-control" name="nama" value="<?php echo $pecah['nama_penyakit']; ?>">
     </div>
-    <div class="form-group">
+    <!-- <div class="form-group">
         <label>Solusi</label>
         <input type="text" class="form-control" name="solusi" value="<?php echo $pecah['solusi']; ?>">
-    </div>
+    </div> -->
     <button class="btn btn-primary" name="ubah">Ubah</button>
 </form>
 <?php
 if (isset($_POST['ubah'])) {
 
-    $koneksi->query("UPDATE penyakit SET nama_penyakit='$_POST[nama]',
-        solusi='$_POST[solusi]' WHERE id_penyakit='$_GET[id]'");
+    $koneksi->query("UPDATE penyakit SET nama_penyakit='$_POST[nama]' WHERE id_penyakit='$_GET[id]'");
 
     echo "<div class='alert alert-info'>Data Berhasil di ubah</div>";
     echo "<meta http-equiv='refresh' content='1;url=index.php?halaman=penyakit'>";

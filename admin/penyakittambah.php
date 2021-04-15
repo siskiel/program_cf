@@ -11,10 +11,10 @@
         <label>Nama Penyakit</label>
         <input type="text" class="form-control" name="nama">
     </div>
-    <div class="form-group">
+    <!-- <div class="form-group">
         <label>Solusi</label>
         <input type="text" class="form-control" name="solusi">
-    </div>
+    </div> -->
     <div class="form-group pull-right">
         <button class="btn btn-default " name="rest" type="reset">Reset</button>
         <button class="btn btn-success" name="save">Simpan</button>
@@ -22,7 +22,7 @@
 <?php
 if (isset($_POST['save'])) {
 
-    $koneksi->query("INSERT INTO penyakit (nama_penyakit,solusi) VALUES('$_POST[nama]','$_POST[solusi]')");
+    $koneksi->query("INSERT INTO penyakit (nama_penyakit) VALUES('$_POST[nama]')");
     echo "<div class='alert alert-info'>Data tersimpan</div>";
     echo "<meta http-equiv='refresh' content='1;url=index.php?halaman=penyakit'>";
 }

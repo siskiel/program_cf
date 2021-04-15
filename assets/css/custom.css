@@ -42,7 +42,7 @@ body {
     border:1px solid #f3f3f3;
 }
 h2 {
-    color: #f00;
+    color: #2c6ed5;
 }
 h4 {
     padding-top:10px;
@@ -100,7 +100,7 @@ background-color: #00CE6F;
 color: #fff;
 }
  .bg-color-blue {
-background-color: #A95DF0;
+background-color: #2c6ed5;
 color: #fff;
 }
   .bg-color-red {
@@ -207,7 +207,7 @@ max-width:170px;
 
 .navbar-cls-top .navbar-brand {
 	color: #fff;
-background: #C90000;
+background: #2c6ed5;
 width: 260px;
 text-align: center;
 height: 60px;
@@ -215,7 +215,7 @@ font-size: 30px;
 font-weight: 700;
 }
 .active-menu {
-    background-color:#C90000!important;
+    background-color:#2c6ed5!important;
 }
 
 .arrow {
@@ -311,7 +311,7 @@ font-weight: 700;
 }
 .navbar-cls-top .navbar-brand:hover {
 
-background: #C90000;
+background: #2c6ed5;
 color:#fff;
 
 }
@@ -321,7 +321,7 @@ border:0px solid black;
      
 }
 .navbar-header {
-    background: #A70303;
+    background: #2c6ed5;
 }
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
 background-color: #B40101;

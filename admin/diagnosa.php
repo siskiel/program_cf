@@ -5,7 +5,6 @@
             <th>No</th>
             <th>Nama Pasien</th>
             <th>Tanggal Konsul</th>
-            <th>Umur</th>
             <th>No.Hp</th>
             <th>Aksi</th>
         </tr>
@@ -20,11 +19,11 @@
             <td><?php echo $nomor; ?></td>
             <td><?php echo $pecah['nama_pasien'];?></td>
             <td><?php echo date ('d F Y', strtotime($pecah['tgl_konsul']));?></td>
-            <td><?php echo $pecah['umur'];?></td>
             <td><?php echo $pecah['no_hp'];?></td>
             <td>
-                <a href="index.php?halaman=diagnosadetail&id=<?php echo $pecah['id_pasien']?>" class="btn-info btn">Detail</a>
-            </td> 
+                <a href="index.php?halaman=diagnosadetail&id=<?php echo $pecah['id_pasien']?>"
+                    class="btn-info btn">Detail</a>
+            </td>
         </tr>
         <?php $nomor++;?>
         <?php }?>
