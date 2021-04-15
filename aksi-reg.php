@@ -110,13 +110,14 @@ $cf_hasil_akhir['values'] = array_values($CF_HE);
 			</div>
 			<!-- /.card-header -->
 			<div class="card-body p-0">
-				<table class="table table-striped">
+				<table class="table table-striped" style="width: 100%;">
 					<thead>
 						<tr>
 							<th style="width: 10%">No</th>
 							<th style="width: 20%">Kode Gejala</th>
-							<th style="width: 60%">Nama Gejala</th>
+							<th style="width: 50%">Nama Gejala</th>
 							<th style="width: 10%">Nilai Bobot</th>
+							<th style="width: 10%">Nilai User</th>
 						</tr>
 					</thead>
 
@@ -131,6 +132,7 @@ $cf_hasil_akhir['values'] = array_values($CF_HE);
 								echo "<td align='center'>" . $data_gejala['kode_gejala'][$index] . "</td>";
 								echo "<td align='center'>" . $data_gejala['nama_gejala'][$index] . "</td>";
 								echo "<td align='center'>" . $data_gejala['nilai_bobot'][$index] . "</td>";
+								echo "<td align='center'>" . $gejala_user[$value] . "</td>";
 								echo "</tr>";
 
 								$no++;
