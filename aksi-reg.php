@@ -114,19 +114,20 @@ $cf_hasil_akhir['values'] = array_values($CF_HE);
                 <h4>Gejala yang Anda Pilih</h4>
             </div>
             <div class="card-body">
-                <table class="table table-striped ">
-                    <thead class="table-primary">
-                        <tr class="text ">
-                            <th>No</th>
-                            <th>Kode Gejala</th>
-                            <th>Nama Gejala</th>
-                            <th>Nilai Bobot</th>
-                            <th>Nilai User</th>
-                        </tr>
-                    </thead>
+                <div class="container">
+                    <table class="table table-striped ">
+                        <thead class="table-primary">
+                            <tr class="text ">
+                                <th>No</th>
+                                <th>Kode Gejala</th>
+                                <th>Nama Gejala</th>
+                                <th>Nilai Bobot</th>
+                                <th>Nilai User</th>
+                            </tr>
+                        </thead>
 
-                    <tbody>
-                        <?php
+                        <tbody>
+                            <?php
 							$no = 1;
 							foreach ($pilihan_user as $key => $value) {
 								$index =  array_search("{$value}", $data_gejala['id_gejala'], true);
@@ -142,20 +143,19 @@ $cf_hasil_akhir['values'] = array_values($CF_HE);
 								$no++;
 							}
 						?>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
-        </div>
-
-        <br>
-
-    </div>
-
-
-
-    <hr style="border-top: 2px solid black;">
-
-    <?php
+            <div class="card-footer">
+                2 days ago
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Hasil Perhitungan</h5>
+                                <?php
 				if(isset($_POST['submit'])) {
 					if($cf_hasil_akhir['values'][0] == $cf_hasil_akhir['values'][1]) {
 						$penyakit_gabungan = [$cf_hasil_akhir['keys'][0], $cf_hasil_akhir['keys'][1]];
@@ -202,14 +202,13 @@ $cf_hasil_akhir['values'] = array_values($CF_HE);
 							// isi pesan untuk hasil diagnosa
 							$pesan = "
 							<p>
-								Dari hasil perhitungan, maka dapat disimpulkan penyakit yang anda alami adalah
+								Dari hasil perhitungan certainty factor, maka dapat disimpulkan penyakit yang anda alami adalah
 								<pre>".$data_penyakit['nama_penyakit'][array_search($cf_hasil_akhir['keys'][0],$data_penyakit['kode_penyakit'])]. " (" . $cf_hasil_akhir['keys'][0] . ")" . "</pre>
 								Dengan tingkat presentasi:
 								<pre>".round(($cf_hasil_akhir['values'][0] * 100), 2)."%</pre>
-								Solusi : 
-								<pre>".$data_penyakit['solusi'][array_search($cf_hasil_akhir['keys'][0],$data_penyakit['kode_penyakit'])]. "</pre>
+								<pre><strong>Anda akan menjalaini Hemodelosia</strong></pre>
 							</p>
-							<a href='content/user/konsultasi/proses_cetak.php?id=".$last_id."' class='btn btn-primary btn-flat float-right'><i class='fa fa-print'></i> Cetak Laporan</a>
+							<a href='proses_cetak.php?id=".$last_id."' class='btn btn-primary btn-flat float-right'><i class='fa fa-print'></i> Cetak Laporan</a>
 							<br><br>
 							";
 						else:
@@ -220,6 +219,81 @@ $cf_hasil_akhir['values'] = array_values($CF_HE);
 					echo $pesan;
 				} 
 			?>
+                                <!-- <p class="card-text">With supporting text below as a natural lead-in to additional
+                                    content.</p> -->
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="card">
+                            <div class="card-body text-muted">
+                                <h5 class="card-title">Keterangan</h5>
+                                <p class="card-text">Nilai User merupakan, jawaban dari yang anda pilih pada halaman
+                                    sebelumnya</p>
+                                <table class="table text-muted">
+                                    <thead class="table-info text-muted">
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Nilai</th>
+                                            <th scope="col">Keterangan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td scope="row">1</td>
+                                            <td>0</td>
+                                            <td>Tidak Tau</td>
+                                        </tr>
+                                        <tr>
+                                            <td scope="row">2</td>
+                                            <td>0,2</td>
+                                            <td>Tidak Yakin</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td scope="row">3</td>
+                                            <td>0,4</td>
+                                            <td>Sedikit Yakin</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td scope="row">4</td>
+                                            <td>0,6</td>
+                                            <td>Cukup Yakin</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td scope="row">5</td>
+                                            <td>0,8</td>
+                                            <td>Yakin</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td scope="row">6</td>
+                                            <td>1</td>
+                                            <td>Sangat Yakin</td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+    </div>
+
+
+
+    <hr style="border-top: 2px solid black;">
+
+
     </div>
     <!-- ./wrapper -->
 
