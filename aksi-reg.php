@@ -88,65 +88,70 @@ $cf_hasil_akhir['values'] = array_values($CF_HE);
 <html lang="en">
 
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-	<title>Expert System | Diagnosa</title>
+    <title>Expert System | Diagnosa</title>
 
-	<!-- Font Awesome Icons -->
-	<link rel="stylesheet" href="assets/hasil-konsultasi/plugins/fontawesome-free/css/all.min.css">
-	<!-- Theme style -->
-	<link rel="stylesheet" href="assets/hasil-konsultasi/dist/css/adminlte.min.css">
-	<!-- Google Font: Source Sans Pro -->
-	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <!-- Theme style -->
+    <link rel="stylesheet" href="assets/laporan/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.css">
+
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 
-<body class="hold-transition sidebar-mini">
-	<div class="wrapper">
-		<div class="card">
-			<div class="card-header">
-			<h3 class="card-title">Gejala :</h3>
-			</div>
-			<!-- /.card-header -->
-			<div class="card-body p-0">
-				<table class="table table-striped" style="width: 100%;">
-					<thead>
-						<tr>
-							<th style="width: 10%">No</th>
-							<th style="width: 20%">Kode Gejala</th>
-							<th style="width: 50%">Nama Gejala</th>
-							<th style="width: 10%">Nilai Bobot</th>
-							<th style="width: 10%">Nilai User</th>
-						</tr>
-					</thead>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h4>Gejala yang Anda Pilih</h4>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped ">
+                    <thead class="table-primary">
+                        <tr class="text ">
+                            <th>No</th>
+                            <th>Kode Gejala</th>
+                            <th>Nama Gejala</th>
+                            <th>Nilai Bobot</th>
+                            <th>Nilai User</th>
+                        </tr>
+                    </thead>
 
-					<tbody>
-						<?php
+                    <tbody>
+                        <?php
 							$no = 1;
 							foreach ($pilihan_user as $key => $value) {
 								$index =  array_search("{$value}", $data_gejala['id_gejala'], true);
 								
 								echo "<tr>";
 								echo "<td align='center'>" . $no . "</td>";
-								echo "<td align='center'>" . $data_gejala['kode_gejala'][$index] . "</td>";
-								echo "<td align='center'>" . $data_gejala['nama_gejala'][$index] . "</td>";
-								echo "<td align='center'>" . $data_gejala['nilai_bobot'][$index] . "</td>";
-								echo "<td align='center'>" . $gejala_user[$value] . "</td>";
+								echo "<td >" . $data_gejala['kode_gejala'][$index] . "</td>";
+								echo "<td >" . $data_gejala['nama_gejala'][$index] . "</td>";
+								echo "<td >" . $data_gejala['nilai_bobot'][$index] . "</td>";
+								echo "<td >" . $gejala_user[$value] . "</td>";
 								echo "</tr>";
 
 								$no++;
 							}
 						?>
-					</tbody>
-				</table>
-			</div>
-			<!-- /.card-body -->
-			</div>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-			<hr style="border-top: 2px solid black;">
+        <br>
 
-			<?php
+    </div>
+
+
+
+    <hr style="border-top: 2px solid black;">
+
+    <?php
 				if(isset($_POST['submit'])) {
 					if($cf_hasil_akhir['values'][0] == $cf_hasil_akhir['values'][1]) {
 						$penyakit_gabungan = [$cf_hasil_akhir['keys'][0], $cf_hasil_akhir['keys'][1]];
@@ -210,17 +215,11 @@ $cf_hasil_akhir['values'] = array_values($CF_HE);
 					echo $pesan;
 				} 
 			?>
-		</div>
-	<!-- ./wrapper -->
+    </div>
+    <!-- ./wrapper -->
 
-	<!-- REQUIRED SCRIPTS -->
-
-	<!-- jQuery -->
-	<script src="assets/hasil-konsultasi/plugins/jquery/jquery.min.js"></script>
-	<!-- Bootstrap 4 -->
-	<script src="assets/hasil-konsultasi/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-	<!-- AdminLTE App -->
-	<script src="assets/hasil-konsultasi/dist/js/adminlte.min.js"></script>
+    <!-- REQUIRED SCRIPTS -->
+    <script src="assets/laporan/js/bootstrap.js"></script>
 </body>
 
 </html>
