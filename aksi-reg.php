@@ -42,13 +42,17 @@ endwhile;
 // mengambil rule berdasarkan gejala user untuk mengambil nilai cf
 $gejala_user_fix = [];
 $pilihan_user = [];
+$pilihan_user_value = [];
 foreach ($gejala_user as $key => $value) {
 	array_push($pilihan_user, $key);
+	array_push($pilihan_user_value, $value);
 
 	$result = $koneksi->query("SELECT * FROM rule INNER JOIN gejala ON rule.id_gejala = gejala.id_gejala WHERE rule.id_gejala='".$key."'");
-	while($row = mysqli_fetch_array($result)):
-		$gejala_user_fix[$row['id_penyakit']]['cf'][] = $row['nilai_bobot'] * $value;
-	endwhile;
+	if ($result->num_rows > 0) {
+		while($row = mysqli_fetch_array($result)):
+			$gejala_user_fix[$row['id_penyakit']]['cf'][] = $row['nilai_bobot'] * $value;
+		endwhile;
+	}
 }
 
 $CF_HE = [];
@@ -68,7 +72,7 @@ foreach ($gejala_user_fix as $key => $value) {
 		$CF_HE[$key] = $cfold;
 	} else {
 		// echo "cuma satu penyakit";
-		$CF_HE[$key] = $value['cf'][$i];
+		$CF_HE[$key] = $value['cf'][0];
 	}
 }
 
@@ -157,7 +161,7 @@ $cf_hasil_akhir['values'] = array_values($CF_HE);
 						$penyakit_gabungan = [$cf_hasil_akhir['keys'][0], $cf_hasil_akhir['keys'][1]];
 
 						// lalu simpan hasil ke dalam table pasien
-						$query = "INSERT INTO pasien (nama_pasien, tgl_lahir, jk, no_hp, alamat, tgl_konsul, id_penyakit, gejala, total_perhitungan) VALUES ('".$nama_pasien."', '".$tgl_lahir."', '".$jk."', '".$no_hp."', '".$alamat."', '".$tgl_konsul."', '".serialize($penyakit_gabungan)."', '".serialize($pilihan_user)."', '".$cf_hasil_akhir['values'][0]."')";
+						$query = "INSERT INTO pasien (nama_pasien, tgl_lahir, jk, no_hp, alamat, tgl_konsul, id_penyakit, gejala, pilihan_user, total_perhitungan) VALUES ('".$nama_pasien."', '".$tgl_lahir."', '".$jk."', '".$no_hp."', '".$alamat."', '".$tgl_konsul."', '".serialize($penyakit_gabungan)."', '".serialize($pilihan_user)."', '".serialize($pilihan_user_value)."', '".$cf_hasil_akhir['values'][0]."')";
 
 						if($koneksi->query($query) === TRUE):
 							// tangkap last id
@@ -188,7 +192,8 @@ $cf_hasil_akhir['values'] = array_values($CF_HE);
 						// lalu simpan hasil ke dalam tbl_konsultasi
 						$penyakit_gabungan = [$cf_hasil_akhir['keys'][0]];
 
-						$query = "INSERT INTO pasien (nama_pasien, tgl_lahir, jk, no_hp, alamat, tgl_konsul, id_penyakit, gejala, total_perhitungan) VALUES ('".$nama_pasien."', '".$tgl_lahir."', '".$jk."', '".$no_hp."', '".$alamat."', '".$tgl_konsul."', '".serialize($penyakit_gabungan)."', '".serialize($pilihan_user)."', '".$cf_hasil_akhir['values'][0]."')";
+						// lalu simpan hasil ke dalam table pasien
+						$query = "INSERT INTO pasien (nama_pasien, tgl_lahir, jk, no_hp, alamat, tgl_konsul, id_penyakit, gejala, pilihan_user, total_perhitungan) VALUES ('".$nama_pasien."', '".$tgl_lahir."', '".$jk."', '".$no_hp."', '".$alamat."', '".$tgl_konsul."', '".serialize($penyakit_gabungan)."', '".serialize($pilihan_user)."', '".serialize($pilihan_user_value)."', '".$cf_hasil_akhir['values'][0]."')";
 
 						if($koneksi->query($query) === TRUE):
 							// tangkap last id

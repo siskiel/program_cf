@@ -64,8 +64,8 @@ include 'config/koneksi.php';
                                     <div class="rs-select2 js-select-simple select--no-search">
                                         <select class="form-select" name="jk" id="jk" required>
                                             <option disabled="disabled" selected="selected">Jenis Kelamin</option>
-                                            <option value="Laki-Laki">Laki-Laki</option>
-                                            <option value="Perempuan">Perempuan</option>
+                                            <option value="l">Laki-Laki</option>
+                                            <option value="p">Perempuan</option>
                                         </select>
                                         <div class="select-dropdown"></div>
                                     </div>
