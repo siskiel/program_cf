@@ -71,7 +71,7 @@ $detail = $ambil->fetch_assoc();
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th colspan="2">Penjelasan</th>
+                        <th colspan="3">Penjelasan</th>
 
                     </tr>
                 </thead>
@@ -86,7 +86,7 @@ $detail = $ambil->fetch_assoc();
                         
                         echo "<tr>";
                         echo "<th>Penyakit</th>";
-                        echo "<td>"; 
+                        echo "<td colspan='2'>"; 
                         $penyakit = unserialize($row['id_penyakit']);
                         foreach ($penyakit as $key => $value) {
                             $result_penyakit = $koneksi->query("SELECT * FROM penyakit WHERE id_penyakit='".$value."'");
@@ -108,11 +108,11 @@ $detail = $ambil->fetch_assoc();
                         }
                         echo "</td>";
                         echo "<td>";
-                        $piliha_user = unserialize($row['pilihan_user']);
-                        foreach ($piliha_user as $key => $value) {
-                            $result_pilihan = $koneksi->query("SELECT * FROM pilihan_user WHERE id_pilihan_user ='".$value."'");
+                        $pilihan_user = unserialize($row['pilihan_user']);
+                        foreach ($pilihan_user as $key => $value) {
+                            $result_pilihan = $koneksi->query("SELECT * FROM pilihan_user WHERE bobot_pilihan ='".$value."'");
                             while($row_pilihan = mysqli_fetch_array($result_pilihan)):
-                                echo $key+1 . ". " . $row_pilihan['bobot_pilihan'] . "<br>";
+                                echo $row_pilihan['bobot_pilihan'] . " (" . $row_pilihan['nama_pilihan'] . ")" . "<br>";
                             endwhile;
                         }
                         echo "</td>";

@@ -83,7 +83,7 @@ arsort($CF_HE);
 $cf_hasil_akhir['keys'] = array_keys($CF_HE);
 $cf_hasil_akhir['values'] = array_values($CF_HE);
 
-// echo "<pre>"; print_r($pilihan_user); echo "</pre>";
+// echo "<pre>"; print_r($cf_hasil_akhir); echo "</pre>";
 
 ?>
 
@@ -149,7 +149,6 @@ $cf_hasil_akhir['values'] = array_values($CF_HE);
 
             </div>
             <div class="card-footer">
-                2 days ago
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="card">
@@ -171,16 +170,16 @@ $cf_hasil_akhir['values'] = array_values($CF_HE);
 							$pesan = "
 							<p>
 								Dari hasil perhitungan, maka dapat disimpulkan penyakit yang anda alami adalah
-								<pre>".$data_penyakit['nama_penyakit'][array_search($cf_hasil_akhir['keys'][0],$data_penyakit['kode_penyakit'])]. " (" . $cf_hasil_akhir['keys'][0] . ")" . "</pre>
-								<pre>".$data_penyakit['nama_penyakit'][array_search($cf_hasil_akhir['keys'][1],$data_penyakit['kode_penyakit'])]. " (" . $cf_hasil_akhir['keys'][1] . ")" . "</pre>
+								<pre>".$data_penyakit['nama_penyakit'][array_search($cf_hasil_akhir['keys'][0],$data_penyakit['id_penyakit'])]. " (" . $cf_hasil_akhir['keys'][0] . ")" . "</pre>
+								<pre>".$data_penyakit['nama_penyakit'][array_search($cf_hasil_akhir['keys'][1],$data_penyakit['id_penyakit'])]. " (" . $cf_hasil_akhir['keys'][1] . ")" . "</pre>
 								Dengan tingkat presentasi:
 								<pre>".round(($cf_hasil_akhir['values'][0] * 100), 2)."%</pre>
 								Solusi : 
-								<pre>".$data_penyakit['nama_penyakit'][array_search($cf_hasil_akhir['keys'][0],$data_penyakit['kode_penyakit'])]. " (" . $cf_hasil_akhir['keys'][0] . ")" . "</pre>
-								<pre>".$data_penyakit['solusi'][array_search($cf_hasil_akhir['keys'][0],$data_penyakit['kode_penyakit'])]. "</pre>
+								<pre>".$data_penyakit['nama_penyakit'][array_search($cf_hasil_akhir['keys'][0],$data_penyakit['id_penyakit'])]. " (" . $cf_hasil_akhir['keys'][0] . ")" . "</pre>
+								<pre>".$data_penyakit['solusi'][array_search($cf_hasil_akhir['keys'][0],$data_penyakit['id_penyakit'])]. "</pre>
 				
-								<pre>".$data_penyakit['nama_penyakit'][array_search($cf_hasil_akhir['keys'][1],$data_penyakit['kode_penyakit'])]. " (" . $cf_hasil_akhir['keys'][1] . ")" . "</pre>
-								<pre>".$data_penyakit['solusi'][array_search($cf_hasil_akhir['keys'][1],$data_penyakit['kode_penyakit'])]. "</pre>
+								<pre>".$data_penyakit['nama_penyakit'][array_search($cf_hasil_akhir['keys'][1],$data_penyakit['id_penyakit'])]. " (" . $cf_hasil_akhir['keys'][1] . ")" . "</pre>
+								<pre>".$data_penyakit['solusi'][array_search($cf_hasil_akhir['keys'][1],$data_penyakit['id_penyakit'])]. "</pre>
 							</p>
 							<a href='content/user/konsultasi/proses_cetak.php?id=".$last_id."' class='btn btn-primary btn-flat float-right'><i class='fa fa-print'></i> Cetak Laporan</a>
 							<br><br>
@@ -198,12 +197,12 @@ $cf_hasil_akhir['values'] = array_values($CF_HE);
 						if($koneksi->query($query) === TRUE):
 							// tangkap last id
 							$last_id = $koneksi->insert_id;
-				
+
 							// isi pesan untuk hasil diagnosa
 							$pesan = "
 							<p>
 								Dari hasil perhitungan certainty factor, maka dapat disimpulkan penyakit yang anda alami adalah
-								<pre>".$data_penyakit['nama_penyakit'][array_search($cf_hasil_akhir['keys'][0],$data_penyakit['kode_penyakit'])]. " (" . $cf_hasil_akhir['keys'][0] . ")" . "</pre>
+								<pre>".$data_penyakit['nama_penyakit'][array_search($cf_hasil_akhir['keys'][0],$data_penyakit['id_penyakit'])]. " (" . $cf_hasil_akhir['keys'][0] . ")" . "</pre>
 								Dengan tingkat presentasi:
 								<pre>".round(($cf_hasil_akhir['values'][0] * 100), 2)."%</pre>
 								<pre><strong>Anda akan menjalaini Hemodelosia</strong></pre>
