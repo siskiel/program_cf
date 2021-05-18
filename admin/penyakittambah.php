@@ -11,10 +11,11 @@
         <label>Nama Penyakit</label>
         <input type="text" class="form-control" name="nama">
     </div>
-    <!-- <div class="form-group">
+    <div class="form-group">
         <label>Solusi</label>
-        <input type="text" class="form-control" name="solusi">
-    </div> -->
+        <textarea type="text" class="form-control" name="solusi">
+        </textarea>
+    </div>
     <div class="form-group pull-right">
         <button class="btn btn-default " name="rest" type="reset">Reset</button>
         <button class="btn btn-success" name="save">Simpan</button>

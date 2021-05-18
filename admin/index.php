@@ -15,7 +15,7 @@ if(!isset($_SESSION['user']))
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin | Batu Karang - Expert System</title>
+    <title>Perawat | Ginjal - Expert System</title>
     <!-- BOOTSTRAP STYLES-->
     <link href="../assets/css/bootstrap.css" rel="stylesheet" />
     <!-- FONTAWESOME STYLES-->

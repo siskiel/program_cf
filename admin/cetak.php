@@ -1,93 +1,103 @@
 <?php
     include('../assets/hasil-konsultasi/plugins/dompdf/autoload.inc.php');
-    include('../koneksi.php');
+    include('../config/koneksi.php');
     ob_start();
-    $result = $koneksi->query("SELECT * FROM pasien JOIN penyakit ON pasien.id_penyakit = penyakit.id_penyakit WHERE id_pasien='".$_GET['id']."'");
-    $detail = $result->fetch_assoc();
+    $result = $koneksi->query("SELECT * FROM pasien WHERE id_pasien='".$_GET['id']."'");
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan Diagnosa Penyakit</title>
+    <title>Laporan Prediksi Penyakit</title>
 
     <style>
-        .table {
-            width: 100%; background-color: transparent; border-collapse: collapse; display: table;
-        }
+    .table {
+        width: 100%;
+        background-color: transparent;
+        border-collapse: collapse;
+        display: table;
+        /* border: 1px; */
+    }
 
-        .table tr th {
-            background: red;
-            color: #fff;
-            font-weight: normal;
-        }
+    .table tr th {
+        background: #35A9DB;
+        color: black;
+        font-weight: normal;
+        /* border: 1px; */
+    }
     </style>
 </head>
+
 <body>
     <center>
-        <h1>Laporan Diagnosa Penyakit</h1>
+        <h2>Laporan Perdiksi Pasien Penyakit Ginjal</h2>
+        <h2>RSUD Deli Serdang</h2>
+        <h3>Jl. Mh. Thamrin No.126, Lubuk Pakam Pekan, Kec. Lubuk Pakam, Kabupaten Deli
+            Serdang, Sumatera Utara</h3>
 
-        <hr/><br/><br/><br/>
+        <hr /><br /><br />
 
         <table class="table" border="1px">
             <tbody>
+                <!-- <th>Ini penjelsanan</th> -->
                 <?php
-                    
-    
-                    $no = 1;
-                    while($row = mysqli_fetch_array($result)):
-                        echo "<tr>";
-                        echo "<th>No</th>";
-                        echo "<td>" . $no . "</td>";
-                        echo "</tr>";
-
-                        echo "<tr>";
+                        // print_r($row);
+                        // echo "<pre>".$row. "</pre>";
+                        
+                        $no = 1;
+                      while($row = mysqli_fetch_array($result)):
+                                                echo "<tr>";
                         echo "<th>Nama Lengkap</th>";
-                        echo "<td>" . $row['nama_pasien'] . "</td>";
+                        echo "<td colspan='2' >" . $row['nama_pasien'] . "</td>";
                         echo "</tr>";
 
                         echo "<tr>";
                         echo "<th>Tgl. Lahir</th>";
-                        echo "<td>" . $row['tgl_lahir'] . "</td>";
-                        echo "</tr>";
-
-                        echo "<tr>";
-                        echo "<th>Umur</th>";
-                        echo "<td>" . $row['umur'] . "</td>";
+                        echo "<td colspan='2'>" . date ('d F Y', strtotime($row['tgl_lahir'])) . "</td>";
                         echo "</tr>";
 
                         echo "<tr>";
                         echo "<th>Jenis Kelamin</th>";
-                        echo "<td>" . $row['jk'] . "</td>";
-                        echo "</tr>";
-
-                        echo "<tr>";
-                        echo "<th>Pekerjaan</th>";
-                        echo "<td>" . $row['pekerjaan'] . "</td>";
+                        echo "<td colspan='2'>" . $row['jk'] . "</td>";
                         echo "</tr>";
 
                         echo "<tr>";
                         echo "<th>No. Hp</th>";
-                        echo "<td>" . $row['no_hp'] . "</td>";
+                        echo "<td colspan='2'>" . $row['no_hp'] . "</td>";
                         echo "</tr>";
 
                         echo "<tr>";
                         echo "<th>Alamat</th>";
-                        echo "<td>" . $row['alamat'] . "</td>";
+                        echo "<td colspan='2'>" . $row['alamat'] . "</td>";
                         echo "</tr>";
 
                         echo "<tr>";
-                        echo "<th>Tgl. Konsul</th>";
-                        echo "<td>" . $row['tgl_konsul'] . "</td>";
+                        echo "<th >Tgl. Konsul</th>";
+                        echo "<td colspan='2'>" . date ('d F Y', strtotime($row['tgl_konsul'])) . "</td>";
                         echo "</tr>";
 
+                        echo "<tr>";
+                        echo "<th>Derajat Kepercayaan</th>";
+                        echo "<td colspan='2'>" . round($row['total_perhitungan'],2) . " %</td>";
+                        echo "</tr>";
+                        
                         echo "<tr>";
                         echo "<th>Penyakit</th>";
-                        echo "<td>" . $row['kode_penyakit'] . " <br> " . $row['nama_penyakit'] . "</td>";
+                        echo "<td>"; 
+                        $penyakit = unserialize($row['id_penyakit']);
+                        foreach ($penyakit as $key => $value) {
+                            $result_penyakit = $koneksi->query("SELECT * FROM penyakit WHERE id_penyakit='".$value."'");
+                            while($row_penyakit = mysqli_fetch_array($result_penyakit)):
+                                echo " " . $row_penyakit['nama_penyakit'] . "<br>";
+                            endwhile;
+                            
+                        }
+                        echo "</td>";
+                        echo "<td>Nilai Jawaban </td>";
                         echo "</tr>";
-
                         echo "<tr>";
                         echo "<th>Gejala</th>";
                         echo "<td>";
@@ -99,30 +109,48 @@
                             endwhile;
                         }
                         echo "</td>";
+                        echo "<td>";
+                        $pilihan_user = unserialize($row['pilihan_user']);
+                        foreach ($pilihan_user as $key => $value) {
+                            $result_pilihan = $koneksi->query("SELECT * FROM pilihan_user WHERE bobot_pilihan ='".$value."'");
+                            while($row_pilihan = mysqli_fetch_array($result_pilihan)):
+                                echo $row_pilihan['bobot_pilihan'] . " (" . $row_pilihan['nama_pilihan'] . ")" . "<br>";
+                            endwhile;
+                        }
+                        echo "</td>";
                         echo "</tr>";
-
                         echo "<tr>";
                         echo "<th>Solusi</th>";
-                        echo "<td>" . $row['solusi'] . "</td>";
+                        echo "<td colspan='2'>";
+                        $penyakit = unserialize($row['id_penyakit']);
+                        foreach ($penyakit as $key => $value) {
+                            $result_penyakit = $koneksi->query("SELECT * FROM penyakit WHERE id_penyakit='".$value."'");
+                            while($row_penyakit = mysqli_fetch_array($result_penyakit)):
+                                echo " " . $row_penyakit['solusi'] . "<br>";
+                            endwhile;
+                            
+                        }
                         echo "</tr>";
-                        
+                          echo "</td>";
                         $no++;
                     endwhile;
     
                     mysqli_close($koneksi);
-                ?>
+               ?>
+
             </tbody>
         </table>
+
     </center>
-
+    <p style="text-align:right;">dr.Asri Ludin Tambunan</p>
+    <br>
+    <br>
+    <br>
+    <h4 style="text-align:right;"><strong> Dokter Spesialis Penyakit Dalam </strong> </h4>
     <br><br><br>
-
-    <div style="float: right">
-        <p>Medan,                 2020</p> <br><br>
-
-        <p>Nama Dr.</p>
-    </div>
+    <p></p>
 </body>
+
 </html>
 
 <?php
@@ -135,5 +163,5 @@ $dompdf->setPaper('A4', 'potrait');
 // Rendering dari HTML Ke PDF
 $dompdf->render();
 // Melakukan output file Pdf
-$dompdf->stream('laporan_hasil.pdf');
+$dompdf->stream('laporan pasien.pdf');
 ?>

@@ -36,7 +36,7 @@ include 'config/koneksi.php';
             <div class="card card-2">
                 <div class="card-heading"></div>
                 <div class="card-body">
-                    <h2 class="title">Registration Info</h2>
+                    <h2 class="title">Konsultasi Penyakit</h2>
                     <form method="POST" action="aksi-reg.php">
                         <div class="row row-space">
                             <div class="col-2">
@@ -64,8 +64,8 @@ include 'config/koneksi.php';
                                     <div class="rs-select2 js-select-simple select--no-search">
                                         <select class="form-select" name="jk" id="jk" required>
                                             <option disabled="disabled" selected="selected">Jenis Kelamin</option>
-                                            <option value="l">Laki-Laki</option>
-                                            <option value="p">Perempuan</option>
+                                            <option value="Laki-Laki">Laki-Laki</option>
+                                            <option value="Perempuan">Perempuan</option>
                                         </select>
                                         <div class="select-dropdown"></div>
                                     </div>

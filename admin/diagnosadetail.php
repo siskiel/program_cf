@@ -11,6 +11,8 @@ $detail = $ambil->fetch_assoc();
     <a href="index.php?halaman=diagnosa" class="btn btn-warning">
         << Kembali </a>
 </div>
+<a href="cetak.php?id=<?php echo $detail['id_pasien'];?>" class="btn btn-primary">
+    Cetak Data Pasien</a>
 <br>
 <div class="form-row">
     <div class="form-group">
@@ -78,23 +80,26 @@ $detail = $ambil->fetch_assoc();
                 <tbody>
                     <!-- <th>Ini penjelsanan</th> -->
                     <?php
-    // print_r($row);
-    // echo "<pre>".$row. "</pre>";
+                        // print_r($row);
+                        // echo "<pre>".$row. "</pre>";
                         $no = 1;
                       while($row = mysqli_fetch_array($result)):
 
                         
                         echo "<tr>";
                         echo "<th>Penyakit</th>";
-                        echo "<td colspan='2'>"; 
+                        echo "<td>"; 
                         $penyakit = unserialize($row['id_penyakit']);
                         foreach ($penyakit as $key => $value) {
                             $result_penyakit = $koneksi->query("SELECT * FROM penyakit WHERE id_penyakit='".$value."'");
                             while($row_penyakit = mysqli_fetch_array($result_penyakit)):
-                                echo $key+1 . ". " . $row_penyakit['nama_penyakit'] . "<br>";
+                                echo " " . $row_penyakit['nama_penyakit'] . "<br>";
                             endwhile;
+                            
                         }
                         echo "</td>";
+                        echo "<td>Nilai Jawaban </td>";
+                      
                         echo "</tr>";
                         echo "<tr>";
                         echo "<th>Gejala</th>";
@@ -115,9 +120,20 @@ $detail = $ambil->fetch_assoc();
                                 echo $row_pilihan['bobot_pilihan'] . " (" . $row_pilihan['nama_pilihan'] . ")" . "<br>";
                             endwhile;
                         }
+                        
                         echo "</td>";
                         echo "</tr>";
-                        
+                        echo "<th>Solusi</th>";
+                        echo "<td colspan='3'>";
+                        $penyakit = unserialize($row['id_penyakit']);
+                        foreach ($penyakit as $key => $value) {
+                            $result_penyakit = $koneksi->query("SELECT * FROM penyakit WHERE id_penyakit='".$value."'");
+                            while($row_penyakit = mysqli_fetch_array($result_penyakit)):
+                                echo " " . $row_penyakit['solusi'] . "<br>";
+                            endwhile;
+                            
+                        }
+                          echo "</td>";
                         $no++;
                     endwhile;
     

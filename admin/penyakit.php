@@ -7,8 +7,9 @@
     <thead>
         <tr>
             <th>No</th>
+            <th>Kode Penyakit</th>
             <th>Nama Penyakit</th>
-            <!-- <th>Solusi</th> -->
+            <th>Solusi</th>
             <th>Aksi</th>
 
         </tr>
@@ -19,8 +20,9 @@
         <?php while($pecah = $ambil->fetch_assoc()){?>
         <tr>
             <td><?php echo $nomor; ?></td>
+            <td><?php echo $pecah['kode_penyakit'];?></td>
             <td><?php echo $pecah['nama_penyakit'];?></td>
-            <!-- <td><?php echo $pecah['solusi'];?></td> -->
+            <td><?php echo $pecah['solusi'];?></td>
 
             <td>
                 <a href="index.php?halaman=penyakitubah&id=<?php echo $pecah['id_penyakit'];?>" i

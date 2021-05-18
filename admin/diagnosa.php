@@ -1,4 +1,4 @@
-<h2> Diagnosa</h2>
+<h2> Prediksi Pasien</h2>
 <table class="table table-bordered">
     <thead>
         <tr>

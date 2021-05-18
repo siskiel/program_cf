@@ -18,75 +18,84 @@
         background-color: transparent;
         border-collapse: collapse;
         display: table;
+        /* border: 1px; */
     }
 
     .table tr th {
         background: #35A9DB;
-        color: #fff;
+        color: black;
         font-weight: normal;
+        /* border: 1px; */
     }
     </style>
 </head>
 
 <body>
     <center>
-        <h1>Laporan Diagnosa Penyakit</h1>
-
+        <h1>Laporan Perdiksi Pasien Penyakit Ginjal</h1>
+        <h1>RSUD Deli Serdang</h1>
+        <h2>Jl. Mh. Thamrin No.126, Lubuk Pakam Pekan, Kec. Lubuk Pakam, Kabupaten Deli
+            Serdang, Sumatera Utara</h2>
         <hr /><br /><br /><br />
 
         <table class="table" border="1px">
             <tbody>
+                <!-- <th>Ini penjelsanan</th> -->
                 <?php
-                    $result = $koneksi->query("SELECT * FROM pasien JOIN penyakit ON pasien.id_penyakit = penyakit.id_penyakit WHERE id_pasien='".$_GET['id']."'");
-    
-                    $no = 1;
-                    while($row = mysqli_fetch_array($result)):
-                        echo "<pre>".$row. "</pre>";
-                        // echo "<tr>";
-                        // echo "<th>No</th>";
-                        // echo "<td>" . $no . "</td>";
-                        // echo "</tr>";
-
-                        echo "<tr>";
+                        // print_r($row);
+                        // echo "<pre>".$row. "</pre>";
+                        $result = $koneksi->query("SELECT * FROM pasien  WHERE id_pasien='".$_GET['id']."'");
+                        $no = 1;
+                      while($row = mysqli_fetch_array($result)):
+                                                echo "<tr>";
                         echo "<th>Nama Lengkap</th>";
-                        echo "<td>" . $row['nama_pasien'] . "</td>";
+                        echo "<td colspan='2' >" . $row['nama_pasien'] . "</td>";
                         echo "</tr>";
 
                         echo "<tr>";
                         echo "<th>Tgl. Lahir</th>";
-                        echo "<td>" . date ('d F Y', strtotime($row['tgl_lahir'])) . "</td>";
+                        echo "<td colspan='2'>" . date ('d F Y', strtotime($row['tgl_lahir'])) . "</td>";
                         echo "</tr>";
 
                         echo "<tr>";
                         echo "<th>Jenis Kelamin</th>";
-                        echo "<td>" . $row['jk'] . "</td>";
+                        echo "<td colspan='2'>" . $row['jk'] . "</td>";
                         echo "</tr>";
 
                         echo "<tr>";
                         echo "<th>No. Hp</th>";
-                        echo "<td>" . $row['no_hp'] . "</td>";
+                        echo "<td colspan='2'>" . $row['no_hp'] . "</td>";
                         echo "</tr>";
 
                         echo "<tr>";
                         echo "<th>Alamat</th>";
-                        echo "<td>" . $row['alamat'] . "</td>";
+                        echo "<td colspan='2'>" . $row['alamat'] . "</td>";
                         echo "</tr>";
 
                         echo "<tr>";
-                        echo "<th>Tgl. Konsul</th>";
-                        echo "<td>" . date ('d F Y', strtotime($row['tgl_konsul'])) . "</td>";
-                        echo "</tr>";
-
-                        echo "<tr>";
-                        echo "<th>Penyakit</th>";
-                        echo "<td>" . $row['kode_penyakit'] . " <br> " . $row['nama_penyakit'] . "</td>";
+                        echo "<th >Tgl. Konsul</th>";
+                        echo "<td colspan='2'>" . date ('d F Y', strtotime($row['tgl_konsul'])) . "</td>";
                         echo "</tr>";
 
                         echo "<tr>";
                         echo "<th>Derajat Kepercayaan</th>";
-                        echo "<td>" . round($row['total_perhitungan'],2) . " %</td>";
+                        echo "<td colspan='2'>" . round($row['total_perhitungan'],2) . " %</td>";
                         echo "</tr>";
                         
+                        echo "<tr>";
+                        echo "<th>Penyakit</th>";
+                        echo "<td>"; 
+                        $penyakit = unserialize($row['id_penyakit']);
+                        foreach ($penyakit as $key => $value) {
+                            $result_penyakit = $koneksi->query("SELECT * FROM penyakit WHERE id_penyakit='".$value."'");
+                            while($row_penyakit = mysqli_fetch_array($result_penyakit)):
+                                echo " " . $row_penyakit['nama_penyakit'] . "<br>";
+                            endwhile;
+                            
+                        }
+                        echo "</td>";
+                        echo "<td>Nilai Jawaban </td>";
+                        echo "</tr>";
                         echo "<tr>";
                         echo "<th>Gejala</th>";
                         echo "<td>";
@@ -98,20 +107,32 @@
                             endwhile;
                         }
                         echo "</td>";
+                        echo "<td>";
+                        $pilihan_user = unserialize($row['pilihan_user']);
+                        foreach ($pilihan_user as $key => $value) {
+                            $result_pilihan = $koneksi->query("SELECT * FROM pilihan_user WHERE bobot_pilihan ='".$value."'");
+                            while($row_pilihan = mysqli_fetch_array($result_pilihan)):
+                                echo $row_pilihan['bobot_pilihan'] . " (" . $row_pilihan['nama_pilihan'] . ")" . "<br>";
+                            endwhile;
+                        }
+                        echo "</td>";
                         echo "</tr>";
-
                         
-
-                                             
                         $no++;
                     endwhile;
     
-                    // mysqli_close($koneksi);
-                ?>
+                    mysqli_close($koneksi);
+               ?>
+
             </tbody>
         </table>
-    </center>
 
+    </center>
+    <p style="text-align: right;">dr.Asri Ludin Tambunan</p>
+    <br>
+    <br>
+    <br>
+    <h4 class="text-right "><strong> Dokter Spesialis Penyakit Dalam </strong> </h4>
     <br><br><br>
 
 </body>

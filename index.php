@@ -92,9 +92,9 @@
                     <div class="content col-xl-5 d-flex align-items-stretch" data-aos="fade-right">
                         <div class="content">
 
-                            <h3>Penaykit Ginjal Kronik</h3>
+                            <h3>Penyakit Ginjal Kronik</h3>
                             <p>
-                                Pengakit ginjal merupakan suatu keadaan dimana ginjal
+                                Penyakit ginjal merupakan suatu keadaan dimana ginjal
                                 mengalami penurunan pada sistem fungsi kerja ginjal. Pada kondisi fungsi ginjal
                                 yang seharusnya mengalami kerusakan pada kedua ginjal yang ada di dalam
                                 tubuh. Sehingga, tidak dapat bekerja sama sekali pada bagian penyaringan
