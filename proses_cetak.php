@@ -115,9 +115,19 @@
                                 echo $row_pilihan['bobot_pilihan'] . " (" . $row_pilihan['nama_pilihan'] . ")" . "<br>";
                             endwhile;
                         }
-                        echo "</td>";
+                         echo "</td>";
                         echo "</tr>";
-                        
+                        echo "<tr>";
+                        echo "<th>Solusi</th>";
+                        echo "<td colspan='2'>";
+                        $penyakit = unserialize($row['id_penyakit']);
+                        foreach ($penyakit as $key => $value) {
+                            $result_penyakit = $koneksi->query("SELECT * FROM penyakit WHERE id_penyakit='".$value."'");
+                            while($row_penyakit = mysqli_fetch_array($result_penyakit)):
+                                echo " " . $row_penyakit['solusi'] . "<br>";
+                            endwhile;
+                            
+                        }
                         $no++;
                     endwhile;
     
@@ -128,11 +138,12 @@
         </table>
 
     </center>
+
     <p style="text-align: right;">dr.Asri Ludin Tambunan</p>
     <br>
     <br>
     <br>
-    <h4 class="text-right "><strong> Dokter Spesialis Penyakit Dalam </strong> </h4>
+    <h4 style="text-align: right; "><strong> Dokter Spesialis Penyakit Dalam </strong> </h4>
     <br><br><br>
 
 </body>
